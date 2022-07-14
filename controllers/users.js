@@ -23,7 +23,7 @@ router.post('/register', async (req, res) => {
     const salts = 12
     const hashedPassword = await bcrypt.hash(password, salts)
 
-    // create a new user with hassed password
+    // create a new user with hashed password
     const newUser = new db.User({
       name: req.body.name,
       email: req.body.email,
@@ -110,6 +110,93 @@ router.get('/auth-locked', authLockedRoute, (req, res) => {
 })
 
 // GET /:id get user data
-router.get('/:id', async (req, res) => {})
+router.get('/:id', async (req, res) => {
+  // careers: [CareerSchema],
+  // combatSkills: [CombatSkillsSchema],
+  // generalSkills: [GeneralSkillsSchema],
+  // knowledgeSkills: [KnowledgeSkillsSchema],
+  // customSkills: [CustomSkillsSchema],
+  // inventory: [InventorySchema],
+  // weapons: [WeaponsSchema],
+  // talents: [TalentsSchema],
+  // forcePowers: [ForcePowersSchema],
+  // criticalInjuries: [CriticalInjurySchema],
+  // armors: [ArmorSchema],
+  // cybernetics: [CyberneticsSchema],
+  // tools: [ToolsSchema],
+  // user: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'User',
+  // },
+  const id = req.params.id
+  try {
+    const foundUser = await db.User.findById(id).populate({
+      path: 'characters',
+      populate: {
+        path: 'careers',
+      },
+      populate: {
+        path: 'combatSkills',
+      },
+      populate: {
+        path: 'generalSkills',
+      },
+      populate: {
+        path: 'knowledgeSkills',
+      },
+      populate: {
+        path: 'customSkills',
+      },
+      populate: {
+        path: 'inventory',
+      },
+      populate: {
+        path: 'weapons',
+        populate: {
+          path: 'attachments',
+        },
+      },
+      populate: {
+        path: 'talents',
+      },
+      populate: {
+        path: 'forcePowers',
+        populate: {
+          path: 'upgrades',
+        },
+      },
+      populate: {
+        path: 'criticalInjuries',
+      },
+      populate: {
+        path: 'armors',
+        populate: {
+          path: 'attachments',
+        },
+      },
+      populate: {
+        path: 'cybernetics',
+      },
+      populate: {
+        path: 'tools',
+      },
+      populate: {
+        path: 'user',
+      },
+    })
+
+    res.json(foundUser)
+  } catch (err) {
+    console.warn(err)
+  }
+})
+
+// POST /:id post all data
+router.post('/:id', async (req, res) => {
+  try {
+  } catch (err) {
+    console.warn(err)
+  }
+})
 
 module.exports = router

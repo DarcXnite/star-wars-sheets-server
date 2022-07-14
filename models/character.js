@@ -52,6 +52,7 @@ const WeaponAttachments = new mongoose.Schema({
   attachment: String,
   hardPointCost: Number,
   modifications: String,
+  rarity: Number,
 })
 
 const WeaponsSchema = new mongoose.Schema(
@@ -67,6 +68,7 @@ const WeaponsSchema = new mongoose.Schema(
     restricted: Boolean,
     qualities: String,
     modifiers: String,
+    rarity: Number,
     attachments: [WeaponAttachments],
   },
   { timestamps: true }
@@ -138,6 +140,7 @@ const ArmorSchema = new mongoose.Schema(
     value: Number,
     qualities: String,
     features: String,
+    rarity: Number,
     attachments: [ArmorAttachmentsSchema],
   },
   { timestamps: true }
@@ -148,6 +151,7 @@ const CyberneticsSchema = new mongoose.Schema(
     implantName: String,
     active: Boolean,
     summary: String,
+    rarity: Number,
   },
   { timestamps: true }
 )
@@ -157,6 +161,7 @@ const ToolsSchema = new mongoose.Schema(
     toolName: String,
     encumbrance: Number,
     summary: String,
+    rarity: Number,
   },
   { timestamps: true }
 )
@@ -178,7 +183,9 @@ const CharacterSchema = new mongoose.Schema({
   willpower: Number,
   presence: Number,
   woundsThreshold: Number,
+  wounds: Number,
   strainThreshold: Number,
+  strain: Number,
   soakValue: Number,
   rangedDef: Number,
   meleeDef: Number,

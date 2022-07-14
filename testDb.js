@@ -3,10 +3,10 @@ const db = require('./models')
 const createCharacter = async () => {
   try {
     // const newCharacter = await db.Character.create({
-    //   name: 'Billy',
+    //   name: 'Leela',
     //   species: 'person',
-    //   gender: 'boi',
-    //   age: 37,
+    //   gender: 'Grawl',
+    //   age: 90,
     //   height: '5',
     //   build: 'small',
     //   hair: 'black',
@@ -19,7 +19,9 @@ const createCharacter = async () => {
     //   willpower: 15,
     //   presence: 15,
     //   woundsThreshold: 19,
+    //   wounds: 5,
     //   strainThreshold: 14,
+    //   strain: 5,
     //   soakValue: 16,
     //   rangedDef: 23,
     //   meleeDef: 18,
@@ -27,10 +29,14 @@ const createCharacter = async () => {
     //   forcePool: 14,
     //   morality: 6,
     //   conflict: 9,
+    //   notes: 'super cool guy',
     // })
 
+    // const foundCharacter = await db.Character.findById(
+    //   '62d04f4aebf2ba09b9bb3c0c'
+    // )
     const foundCharacter = await db.Character.findById(
-      '62cfac63dde8a57c7ac7b586'
+      '62d0549355129c0bbab81557'
     )
 
     const newCareer = {
@@ -73,12 +79,14 @@ const createCharacter = async () => {
       restricted: true,
       qualities: 'cool',
       modifiers: 'scope',
+      rarity: 12,
       attachments: [],
     }
     const newWeaponAttachments = {
       attachment: 'barrel',
       hardPointCost: 12,
       modifications: 'scope',
+      rarity: 13,
     }
     const newInventory = {
       itemName: 'bomb',
@@ -115,6 +123,7 @@ const createCharacter = async () => {
       value: 20,
       qualities: 'shiny',
       features: 'silver',
+      rarity: 12,
       attachments: [],
     }
     const newArmorAttachments = {
@@ -126,29 +135,31 @@ const createCharacter = async () => {
       implantName: 'something',
       active: false,
       summary: 'does something',
+      rarity: 6,
     }
     const newTools = {
       toolName: 'hammer',
       encumbrance: 12,
       summary: 'can hammer in nails',
+      rarity: 2,
     }
 
-    // newWeapon.attachments.push(newWeaponAttachments)
-    // foundCharacter.careers.push(newCareer)
-    // foundCharacter.generalSkills.push(newGeneralSkills)
-    // foundCharacter.combatSkills.push(newCombatSkills)
-    // foundCharacter.knowledgeSkills.push(newKnowledgeSkills)
-    // foundCharacter.customSkills.push(newCustomSkills)
-    // foundCharacter.weapons.push(newWeapon)
-    // foundCharacter.inventory.push(newInventory)
-    // foundCharacter.talents.push(newTalents)
-    // newForcePowers.upgrades.push(newForcePowerUpg)
-    // foundCharacter.forcePowers.push(newForcePowers)
-    // foundCharacter.criticalInjuries.push(newCriticalInjury)
+    newWeapon.attachments.push(newWeaponAttachments)
+    foundCharacter.careers.push(newCareer)
+    foundCharacter.generalSkills.push(newGeneralSkills)
+    foundCharacter.combatSkills.push(newCombatSkills)
+    foundCharacter.knowledgeSkills.push(newKnowledgeSkills)
+    foundCharacter.customSkills.push(newCustomSkills)
+    foundCharacter.weapons.push(newWeapon)
+    foundCharacter.inventory.push(newInventory)
+    foundCharacter.talents.push(newTalents)
+    newForcePowers.upgrades.push(newForcePowerUpg)
+    foundCharacter.forcePowers.push(newForcePowers)
+    foundCharacter.criticalInjuries.push(newCriticalInjury)
     newArmor.attachments.push(newArmorAttachments)
     foundCharacter.armors.push(newArmor)
-    // foundCharacter.cybernetics.push(newCybernetics)
-    // foundCharacter.tools.push(newTools)
+    foundCharacter.cybernetics.push(newCybernetics)
+    foundCharacter.tools.push(newTools)
 
     await foundCharacter.save()
     console.log(foundCharacter)
@@ -157,4 +168,33 @@ const createCharacter = async () => {
   }
 }
 
-createCharacter()
+// createCharacter()
+
+const createUser = async () => {
+  try {
+    // const newUser = await db.User.create({
+    //   name: 'Grace',
+    //   email: 'grace@grace.com',
+    //   password: '123',
+    //   characters: [],
+    // })
+
+    // const foundCharacter = await db.Character.findById(
+    //   '62d04f4aebf2ba09b9bb3c0c'
+    // )
+    const foundUser = await db.User.findById('62d0528455cf830ffd0d4cd2')
+    const foundCharacter = await db.Character.findById(
+      '62d0549355129c0bbab81557'
+    )
+
+    foundUser.characters.push(foundCharacter)
+    // foundCharacter.user = foundUser
+
+    await foundUser.save()
+    // await foundCharacter.save()
+  } catch (err) {
+    console.warn(err)
+  }
+}
+
+createUser()
