@@ -111,23 +111,6 @@ router.get('/auth-locked', authLockedRoute, (req, res) => {
 
 // GET /:id get user data
 router.get('/:id', async (req, res) => {
-  // careers: [CareerSchema],
-  // combatSkills: [CombatSkillsSchema],
-  // generalSkills: [GeneralSkillsSchema],
-  // knowledgeSkills: [KnowledgeSkillsSchema],
-  // customSkills: [CustomSkillsSchema],
-  // inventory: [InventorySchema],
-  // weapons: [WeaponsSchema],
-  // talents: [TalentsSchema],
-  // forcePowers: [ForcePowersSchema],
-  // criticalInjuries: [CriticalInjurySchema],
-  // armors: [ArmorSchema],
-  // cybernetics: [CyberneticsSchema],
-  // tools: [ToolsSchema],
-  // user: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'User',
-  // },
   const id = req.params.id
   try {
     const foundUser = await db.User.findById(id).populate({
@@ -191,10 +174,62 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-// POST /:id post all data
-router.post('/:id', async (req, res) => {
+// PUT /:id update user data
+router.put('/:id', async (req, res) => {
+  const id = req.params.id
   try {
+    const foundUser = await db.User.findById(id)
+    if (req.body.name) {
+      foundUser.name = req.body.name
+    }
+    if (req.body.email) {
+      foundUser.email = req.body.email
+    }
+
+    if (req.body.password) {
+      // hash the user's pass
+      const password = req.body.password
+      const salts = 12
+      const hashedPassword = await bcrypt.hash(password, salts)
+      foundUser.password = hashedPassword
+    }
+
+    // create a new values with hashed password
+    // foundUser.name = req.body.name
+    // foundUser.email = req.body.email
+    // foundUser.password = hashedPassword
+
+    // jwt token for log in in
+    const payload = {
+      name: foundUser.name,
+      email: foundUser.email,
+      id: foundUser.id,
+      characters: foundUser.characters,
+    }
+    // sign the jwt and send it back
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: '1d',
+    })
+
+    await foundUser.save()
+    // res.json({ foundUser })
+    res.status(201).json({ token })
   } catch (err) {
+    console.warn(err)
+    res
+      .status(500)
+      .json({ msg: 'Something went wrong with updating your account details' })
+  }
+})
+
+// DELETE /:id deletes a user
+router.delete('/:id', async (req, res) => {
+  const id = req.params.id
+  try {
+    await db.User.findByIdAndDelete(id)
+    res.json({ msg: 'user deleted' })
+  } catch (err) {
+    // todo error handle
     console.warn(err)
   }
 })
