@@ -1,5 +1,4 @@
-const { default: mongoose } = require('mongoose')
-const mongooose = require('mongoose')
+const mongoose = require('mongoose')
 
 const UserSchema = new mongoose.Schema(
   {
@@ -15,6 +14,12 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    characters: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Character',
+      },
+    ],
   },
   {
     timestamps: true,

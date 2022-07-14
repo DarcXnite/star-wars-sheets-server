@@ -1,4 +1,4 @@
-const db = require('../../models')
+const db = require('../models')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const router = require('express').Router()
@@ -108,5 +108,8 @@ router.get('/auth-locked', authLockedRoute, (req, res) => {
   console.table(res.locals.user)
   res.json({ msg: 'welcome to the secret auth-locked route' })
 })
+
+// GET /:id get user data
+router.get('/:id', async (req, res) => {})
 
 module.exports = router

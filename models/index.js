@@ -2,7 +2,9 @@ require('dotenv').config()
 
 const mongoose = require('mongoose')
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/mernAuth'
+// for local only, if the DB doesnt exist make one called starWarsSheets
+const MONGODB_URI =
+  process.env.MONGODB_URI || 'mongodb://127.0.0.1/starWarsSheets'
 
 mongoose.connect(MONGODB_URI)
 
@@ -18,4 +20,5 @@ db.on('error', err => {
 
 module.exports = {
   User: require('./user'),
+  Character: require('./character'),
 }
