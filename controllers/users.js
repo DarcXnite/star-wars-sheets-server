@@ -174,7 +174,7 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-// PUT /:id update user data
+// PUT /:id update user data // route has been tested with PM
 router.put('/:id', async (req, res) => {
   const id = req.params.id
   try {
@@ -222,7 +222,7 @@ router.put('/:id', async (req, res) => {
   }
 })
 
-// DELETE /:id deletes a user
+// DELETE /:id deletes a user // route has been tested with PM
 router.delete('/:id', async (req, res) => {
   const id = req.params.id
   try {
