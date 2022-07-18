@@ -85,7 +85,7 @@ router.delete('/:id', async (req, res) => {
   try {
     await db.Character.findByIdAndDelete(id)
 
-    res.status(204).redirect('/') // double check where to reroute
+    res.sendStatus(204) // double check where to reroute
   } catch (err) {
     console.warn(err)
   }
