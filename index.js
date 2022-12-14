@@ -4,16 +4,11 @@ require('./models')
 const express = require('express')
 const cors = require('cors')
 
-const corsOptions = {
-  origin: '*',
-  credentials: true,
-  optionSuccessStatus: 200,
-}
-
 // app config/middleware
 const app = express()
 const PORT = process.env.PORT || 8000
-app.use(cors(corsOptions))
+app.options('*', cors())
+app.use(cors())
 app.use(express.json()) // json req.bodies
 
 // simple middleware
